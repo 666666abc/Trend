@@ -37,17 +37,17 @@ def main(args):
         loader = DataLoader(Data, batch_size=args.batch_size, shuffle=True, num_workers=5)
         for i_batch, sample_batched in enumerate(loader):
             loss, _, _, _, _, = model.forward(
-                sample_batched['s_self_feat'].type(FType).reshape(-1, args.feat_dim).to_sparse().to(device),
-                sample_batched['s_one_hop_feat'].type(FType).reshape(-1, args.feat_dim).to_sparse().to(device),
-                sample_batched['s_two_hop_feat'].type(FType).reshape(-1, args.feat_dim).to_sparse().to(device),
+                sample_batched['s_self_feat'].type(FType).reshape(-1, args.feat_dim).to(device),
+                sample_batched['s_one_hop_feat'].type(FType).reshape(-1, args.feat_dim).to(device),
+                sample_batched['s_two_hop_feat'].type(FType).reshape(-1, args.feat_dim).to(device),
 
-                sample_batched['t_self_feat'].type(FType).reshape(-1, args.feat_dim).to_sparse().to(device),
-                sample_batched['t_one_hop_feat'].type(FType).reshape(-1, args.feat_dim).to_sparse().to(device),
-                sample_batched['t_two_hop_feat'].type(FType).reshape(-1, args.feat_dim).to_sparse().to(device),
+                sample_batched['t_self_feat'].type(FType).reshape(-1, args.feat_dim).to(device),
+                sample_batched['t_one_hop_feat'].type(FType).reshape(-1, args.feat_dim).to(device),
+                sample_batched['t_two_hop_feat'].type(FType).reshape(-1, args.feat_dim).to(device),
 
-                sample_batched['neg_self_feat'].type(FType).reshape(-1, args.feat_dim).to_sparse().to(device),
-                sample_batched['neg_one_hop_feat'].type(FType).reshape(-1, args.feat_dim).to_sparse().to(device),
-                sample_batched['neg_two_hop_feat'].type(FType).reshape(-1, args.feat_dim).to_sparse().to(device),
+                sample_batched['neg_self_feat'].type(FType).reshape(-1, args.feat_dim).to(device),
+                sample_batched['neg_one_hop_feat'].type(FType).reshape(-1, args.feat_dim).to(device),
+                sample_batched['neg_two_hop_feat'].type(FType).reshape(-1, args.feat_dim).to(device),
 
                 sample_batched['event_time'].type(FType).to(device),
                 sample_batched['s_history_times'].type(FType).to(device),
