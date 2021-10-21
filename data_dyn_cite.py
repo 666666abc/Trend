@@ -40,7 +40,7 @@ class DataHelper(Dataset):
         for i in range(infile.size(0)):
             s_node = int(infile[i][0].item())  # source node
             t_node = int(infile[i][1].item())  # target node
-            d_time = float(infile[i][2].item())  # time slot, delta t
+            d_time = float(infile[i][2].item())  # time slot
 
             self.node_set.update([s_node, t_node])
 
@@ -102,11 +102,8 @@ class DataHelper(Dataset):
         self.node_features = torch.load(node_feature_path).numpy()
         self.node_features = preprocessing.StandardScaler().fit_transform(self.node_features)
 
-        # print("degree_features", degree_features[0:5])
         self.node_list = sorted(list(self.node_set))
-        self.time_stamp = sorted(list(set(self.time_stamp)))  # !!! time from 0 to 1
-        # print('time minimum:', min(self.time_stamp))
-        # print('time maxmum:', max(self.time_stamp))
+        self.time_stamp = sorted(list(set(self.time_stamp)))
 
         self.node_dim = len(self.node_set)
         self.data_size = 0
@@ -117,11 +114,7 @@ class DataHelper(Dataset):
             self.node2hist[s] = hist
             self.data_size += len(self.node2hist[s])
 
-        self.max_nei_len = max(map(lambda x: len(x), self.node2hist.values()))  # 955
-        # print('#nodes: {}, #edges: {}, # train time_stamp: {}'.
-        #       format(self.node_dim, len(self.edge_list), len(self.time_stamp)))
-        # print('avg. degree: {}'.format(sum(self.degrees.values()) / len(self.degrees)))
-        # print('max neighbors length: {}'.format(self.max_nei_len))
+        self.max_nei_len = max(map(lambda x: len(x), self.node2hist.values())) 
         self.idx2source_id = np.zeros((self.data_size,), dtype=np.int32)
         self.idx2target_id = np.zeros((self.data_size,), dtype=np.int32)
         idx = 0
@@ -134,11 +127,9 @@ class DataHelper(Dataset):
                     idx] = t_idx
                 idx += 1
 
-
         print('init. neg_table...')
         self.neg_table = np.zeros((self.neg_table_size,))
         self.init_neg_table()
-
 
     def get_node_dim(self):
         return self.node_dim
@@ -372,8 +363,8 @@ class DataHelper(Dataset):
         # print('s_edge_rate', s_edge_rate)
 
         sample = {
-            # 's_node': s_node,  # e.g., 5424
-            # 't_node': t_node,  # e.g., 5427
+            # 's_node': s_node,  
+            # 't_node': t_node,  
             'event_time': e_time,
             's_history_times': s_his_times,
             't_history_times': t_his_times,
