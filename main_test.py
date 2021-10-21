@@ -115,7 +115,7 @@ if __name__ == '__main__':
     parser.add_argument('--hid_dim', type=int, default=16)
     parser.add_argument('--feat_dim', type=int, default=128)
     parser.add_argument('--out_dim', type=int, default=16)
-    parser.add_argument('--seed', type=int, default=4)
+    parser.add_argument('--seed', type=int, default=12)
     parser.add_argument('--ncoef', type=float, default=0.01)
     parser.add_argument('--l2_reg', type=float, default=0.001)
 
