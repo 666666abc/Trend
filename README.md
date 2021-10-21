@@ -2,8 +2,17 @@
 We provide the implementaion of TREND model.
 
 The repository is organised as follows:
-- dataset/: contains the cit-HepTh data set. 
-- film.py: 
+- dataset/: the directory of data sets, and it contains the cit-HepTh data set as the example. 
+- res/: the directory of saved models.
+- Emlp.py: the transfer function for Hawkes process.
+- data_dyn_cite.py: training data preprocessing.
+- data_tlp_cite.py: testing data preperation.
+- dgnn.py: the Hawkes process based GNN.
+- film.py: the event-conditioned transformation.
+- main_test: the testing entrance.
+- main_train: the training entrance.
+- model: the whole model of proposed TREND.
+- node_relu: the MLP of node-dynamics predictor.
 
 
 ## Requirements
