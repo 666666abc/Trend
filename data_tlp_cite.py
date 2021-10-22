@@ -1,8 +1,3 @@
-# coding: utf-8
-# author: lu yf
-# create date: 2018/11/12
-
-# We can debug at this file
 
 from __future__ import division
 from torch.utils.data import Dataset
@@ -15,8 +10,6 @@ from sklearn import preprocessing
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# np.random.seed(1)
-
 
 class DataHelper_t(Dataset):
     def __init__(self, file_path, node_feature_path, neg_size, hist_len, directed=False, transform=None, tlp_flag=False):
@@ -26,7 +19,6 @@ class DataHelper_t(Dataset):
         self.directed = directed
         self.transform = transform
 
-        # self.max_d_time = -sys.maxint  # Time interval [0, T]
         self.max_d_time = -sys.maxsize  # 1.0
 
         self.NEG_SAMPLING_POWER = 0.75
@@ -105,13 +97,11 @@ class DataHelper_t(Dataset):
 
         nodes_list = list(self.node_set)
         self.max_node = np.max(nodes_list) + 1
-        # self.degree_features = np.eye(self.max_node)[nodes_list]
-        # print("degree_features", degree_features[0:5])
         self.test_edge_index = np.array(self.test_edge_index).T
 
-        self.time_stamp = sorted(list(set(self.time_stamp)))  # !!! time from 0 to 1
+        self.time_stamp = sorted(list(set(self.time_stamp)))  
 
-        self.node_dim = len(self.node_set)  # number of nodes 28085
+        self.node_dim = len(self.node_set)  
 
         self.data_size = 0
         for s in self.node2hist:
@@ -122,16 +112,12 @@ class DataHelper_t(Dataset):
             self.data_size += len(self.node2hist[s])
 
         self.max_nei_len = max(map(lambda x: len(x), self.node2hist.values()))
-        # print('#nodes: {}, #edges: {}, #all time_stamp: {}'.
-        #       format(self.node_dim, len(self.edge_list), len(self.time_stamp)))
-        # print('avg. degree: {}'.format(sum(self.degrees.values()) / len(self.degrees)))
-        # print('max neighbors length: {}'.format(self.max_nei_len))
         self.idx2source_id = np.zeros((self.data_size,), dtype=np.int32)
         self.idx2target_id = np.zeros((self.data_size,), dtype=np.int32)
         idx = 0
         for s_node in self.node2hist:
             for t_idx in range(len(self.node2hist[
-                                       s_node])):  # Note the range here, which means from 0 to the number of historical neighbors
+                                       s_node])):  
                 self.idx2source_id[
                     idx] = s_node
                 self.idx2target_id[
@@ -171,7 +157,6 @@ class DataHelper_t(Dataset):
         return len(self.test_edge_index.T)
 
     def __getitem__(self, idx):
-        # sampling via htne
         s_node = self.test_edge_index[:, idx][0]
         t_node = self.test_edge_index[:, idx][1]
         e_time = 1.0
@@ -390,11 +375,11 @@ class DataHelper_t(Dataset):
 
 
         sample = {
-            's_node': s_node,  # e.g., 5424
-            't_node': t_node,  # e.g., 5427
+            's_node': s_node,  
+            't_node': t_node,  
             'neg_s_nodes':neg_s_nodes,
             'event_time': e_time,
-            's_history_times': s_his_times,  # e.g., [0.88462, 0.88462, 0.92308, 0.92308, 0.92308]
+            's_history_times': s_his_times,  
             't_history_times': t_his_times,
             's_his_his_times_list': s_his_his_times_list,
             't_his_his_nodes_list': t_his_his_nodes_list,
