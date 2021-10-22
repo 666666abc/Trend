@@ -13,13 +13,11 @@ class Model(nn.Module):
         self.l2reg = args.l2_reg
         self.ncoef = args.ncoef
         self.EMLP = EMLP(args)
-        # self.grow_f = E_increase(args.edge_grow_input_dim)
         self.gnn = DGNN(args)
         self.scale_e = Scale_4(args)
         self.shift_e = Shift_4(args)
         self.node_edge = Node_edge(args)
 
-        # self.g_optim = optim.Adam(self.grow_f.parameters(), lr=args.lr)
 
         self.optim = optim.Adam([{'params': self.gnn.parameters()},
                                  {'params': self.EMLP.parameters()},
@@ -88,7 +86,6 @@ class Model(nn.Module):
         delta_e = self.node_edge(s_emb)
         node_loss = nn.SmoothL1Loss()
         l_node = node_loss(delta_e, s_edge_rate.reshape(s_edge_rate.size(0), 1))
-        # l_node = torch.sqrt(l_node)
         l_node = self.ncoef * l_node
 
         L = log_event_intensity + neg_mean_intensity + l2_loss + l_node
